@@ -1,0 +1,7 @@
+cli/blf
+*.o
+src/test_blf
+src/libblf.so
+*.so
+cli/blf_cli
+cli/.test.blf

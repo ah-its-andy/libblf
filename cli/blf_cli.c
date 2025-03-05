@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "../src/blf.h"
+#include <blf.h>  // Use the installed library header
 #include "blf_cli.h"
 
 static void print_usage(void) {

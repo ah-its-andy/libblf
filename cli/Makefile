@@ -1,43 +1,31 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -g
-LDFLAGS = 
+CC = clang
+CFLAGS = -Wall -Wextra -std=c99 -g
+LDFLAGS =
 
-# Path to libblf source
-LIBBLF_SRC = ../src
+# Add path to libblf.so
+LIB_PATH = ../src
 
-# Source files
-BLF_SRC = $(LIBBLF_SRC)/blf.c
-CLI_SRC = blf_cli.c
+# Include path for blf.h
+INC_PATH = ../src
 
-# Object files
-BLF_OBJ = $(BLF_SRC:.c=.o)
-CLI_OBJ = $(CLI_SRC:.c=.o)
+TARGET = blf_cli
+OBJS = blf_cli.o
 
-# Target executable
-TARGET = blf
-
-# Default target
 all: $(TARGET)
 
-# Link the executable
-$(TARGET): $(BLF_OBJ) $(CLI_OBJ)
-	$(CC) $(LDFLAGS) -o $@ $^
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^ -L$(LIB_PATH) -lblf $(LDFLAGS)
 
-# Compile BLF library source
-$(BLF_OBJ): $(BLF_SRC)
-	$(CC) $(CFLAGS) -c -o $@ $<
+%.o: %.c
+	$(CC) $(CFLAGS) -I$(INC_PATH) -c -o $@ $<
 
-# Compile CLI source
-$(CLI_OBJ): $(CLI_SRC)
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-# Clean up
-clean:
-	rm -f $(BLF_OBJ) $(CLI_OBJ) $(TARGET)
-
-# Install
 install: $(TARGET)
-	mkdir -p $(DESTDIR)/usr/local/bin
-	cp $(TARGET) $(DESTDIR)/usr/local/bin/
+	mkdir -p $(HOME)/bin
+	cp $(TARGET) $(HOME)/bin/
+	@echo "Installed blf_cli to $(HOME)/bin/"
+	@echo "Make sure LD_LIBRARY_PATH includes $(LIB_PATH) when running"
+
+clean:
+	rm -f $(TARGET) $(OBJS)
 
 .PHONY: all clean install

@@ -91,6 +91,25 @@ blf_close(file);
 
 ## Building
 
+### Dependencies
+
+Before building the library, ensure you have the following dependencies installed:
+
+- clang (default C compiler)
+- build-essential (or equivalent for your platform)
+- libc6-dev
+- make
+
+For Debian/Ubuntu systems:
+```sh
+sudo apt-get install clang build-essential libc6-dev make
+```
+
+For Red Hat/Fedora systems:
+```sh
+sudo dnf install clang make glibc-devel
+```
+
 ### Compiling the Library
 
 To build the shared library and test program:
