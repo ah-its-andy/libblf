@@ -81,4 +81,53 @@ if (blf_get_kv(file, "name", value, &value_len)) {
 }
 
 // Read raw data
-char
+char buffer[1024];
+uint64_t bytes_read = blf_read_raw(file, buffer, sizeof(buffer));
+printf("Read %lu bytes of raw data\n", bytes_read);
+
+// Close the file
+blf_close(file);
+```
+
+## Building
+
+### Compiling the Library
+
+To build the shared library and test program:
+
+```sh
+cd src
+make all
+```
+
+This will produce:
+- `libblf.so` - The shared library
+- `test_blf` - Test executable
+
+To clean up build artifacts:
+
+```sh
+make clean
+```
+
+### Using the Shared Library
+
+To use the shared library in your projects:
+
+1. Include the header file in your code:
+   ```c
+   #include "blf.h"
+   ```
+
+2. When compiling your program, link against the library:
+   ```sh
+   clang your_program.c -L/path/to/libblf -lblf -o your_program
+   ```
+
+3. When running your program, make sure the library is in the library path:
+   ```sh
+   export LD_LIBRARY_PATH=/path/to/libblf:$LD_LIBRARY_PATH
+   ./your_program
+   ```
+
+Alternatively, you can install the library to a system directory or specify the runtime library path during compilation.
